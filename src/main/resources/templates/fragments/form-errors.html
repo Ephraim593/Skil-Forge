@@ -1,0 +1,4 @@
+<div th:fragment="fieldError(fieldName, fieldLabel)" class="field-error"
+     th:if="${#fields.hasErrors(fieldName)}">
+  <span th:errors="*{__${fieldName}__}">Please check this field.</span>
+</div>

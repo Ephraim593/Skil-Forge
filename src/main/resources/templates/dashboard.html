@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | SkillForge</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/components.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+  <header class="app-header"><div class="container" th:replace="~{fragments/navbar :: navbar}"></div></header>
+  <main class="container page-main">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+    <section class="welcome-panel">
+      <div>
+        <p class="eyebrow">Your workspace</p>
+        <h1>Welcome<span th:if="${studentName != null}">, <span th:text="${studentName}">Student</span></span>.</h1>
+        <p class="welcome-copy">A good team turns a good idea into something real. Pick up a project or find the skills your next idea needs.</p>
+      </div>
+      <a class="button button-primary" th:href="@{/projects/new}">＋ Create a project</a>
+      <div class="welcome-orb" aria-hidden="true"></div>
+    </section>
+
+    <section class="section-heading">
+      <div><p class="eyebrow">Quick access</p><h2>Your collaboration space</h2></div>
+    </section>
+    <div class="module-grid">
+      <a class="module-card" th:href="@{/students}">
+        <span class="module-icon icon-violet" aria-hidden="true">◎</span>
+        <span class="module-title">Discover students</span>
+        <span class="module-description">Find potential teammates by skills and interests.</span>
+        <span class="module-link">Explore people <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="module-card" th:href="@{/projects}">
+        <span class="module-icon icon-blue" aria-hidden="true">⌘</span>
+        <span class="module-title">Projects</span>
+        <span class="module-description">Explore project summaries and manage your team space.</span>
+        <span class="module-link">View projects <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="module-card" th:href="@{/tasks}">
+        <span class="module-icon icon-amber" aria-hidden="true">✓</span>
+        <span class="module-title">Tasks</span>
+        <span class="module-description">Keep assignments, due dates, and progress in view.</span>
+        <span class="module-link">Open tasks <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="module-card" th:href="@{/portfolio}">
+        <span class="module-icon icon-green" aria-hidden="true">↗</span>
+        <span class="module-title">Portfolio</span>
+        <span class="module-description">Showcase achievements and links to work you've done.</span>
+        <span class="module-link">View portfolio <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    <section class="dashboard-columns">
+      <div class="content-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Team activity</p><h2>Your projects</h2></div><a th:href="@{/projects}">View all</a></div>
+        <div class="empty-state" th:if="${projectSummaries == null or #lists.isEmpty(projectSummaries)}">
+          <span class="empty-illustration" aria-hidden="true">⌂</span>
+          <h3>Your next project starts here</h3>
+          <p>Projects you create or join will appear here once the backend provides them.</p>
+          <a class="button button-secondary" th:href="@{/projects}">Explore projects</a>
+        </div>
+        <div class="summary-list" th:if="${projectSummaries != null and !#lists.isEmpty(projectSummaries)}">
+          <article class="summary-row" th:each="project : ${projectSummaries}">
+            <div class="summary-mark" aria-hidden="true">P</div>
+            <div class="summary-copy"><h3 th:text="${project.title}">Project title</h3><p th:text="${project.descriptionSummary}">Project summary</p></div>
+            <a class="text-link" th:href="@{/projects/{id}(id=${project.id})}">Open <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+
+      <aside class="content-panel side-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Stay in the loop</p><h2>Invitations</h2></div></div>
+        <div class="empty-state compact" th:if="${pendingInvitationCount == null or pendingInvitationCount == 0}">
+          <span class="empty-illustration" aria-hidden="true">✉</span>
+          <h3>No pending invitations</h3>
+          <p>New invitations will show up here when available.</p>
+        </div>
+        <div th:if="${pendingInvitationCount != null and pendingInvitationCount > 0}" class="invitation-summary">
+          <span class="count-number" th:text="${pendingInvitationCount}">0</span>
+          <p>pending invitation(s)</p>
+          <a class="button button-secondary button-wide" th:href="@{/projects/invitations}">Review invitations</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
+  <script th:src="@{/js/app.js}" defer></script>
+</body>
+</html>

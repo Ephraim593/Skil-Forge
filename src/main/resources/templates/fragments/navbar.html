@@ -1,0 +1,28 @@
+<nav class="site-nav" th:fragment="navbar" aria-label="Main navigation">
+  <a class="brand" th:href="@{/dashboard}" aria-label="SkillForge home">
+    <span class="brand-mark" aria-hidden="true">S</span>
+    <span>SkillForge</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-label="Toggle navigation"
+          aria-expanded="false" data-nav-toggle>
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-links" data-nav-menu>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/students}">Discover students</a>
+    <a th:href="@{/projects}">Projects</a>
+    <a th:href="@{/tasks}">Tasks</a>
+    <a th:href="@{/portfolio}">Portfolio</a>
+  </div>
+
+  <div class="nav-account">
+    <span class="nav-user" th:if="${studentName != null}" th:text="${studentName}">Student</span>
+    <form th:action="@{/logout}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+      <button class="button button-quiet button-small" type="submit">Sign out</button>
+    </form>
+    <a class="button button-primary button-small" th:unless="${#authorization.expression('isAuthenticated()')}"
+       th:href="@{/login}">Sign in</a>
+  </div>
+</nav>

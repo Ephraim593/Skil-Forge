@@ -1,0 +1,14 @@
+<div th:fragment="messages" class="message-stack" aria-live="polite" aria-atomic="true">
+  <div class="alert alert-success" role="status" th:if="${successMessage != null}">
+    <span class="alert-icon" aria-hidden="true">✓</span>
+    <span th:text="${successMessage}">Your changes were saved.</span>
+  </div>
+  <div class="alert alert-error" role="alert" th:if="${errorMessage != null}">
+    <span class="alert-icon" aria-hidden="true">!</span>
+    <span th:text="${errorMessage}">Something went wrong.</span>
+  </div>
+  <div class="alert alert-info" role="status" th:if="${infoMessage != null}">
+    <span class="alert-icon" aria-hidden="true">i</span>
+    <span th:text="${infoMessage}">Information</span>
+  </div>
+</div>
